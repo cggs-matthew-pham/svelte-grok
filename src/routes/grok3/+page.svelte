@@ -21,10 +21,8 @@
 <h1>Method of transportation</h1>
 <form>
     <label for="isRaining">Is it currently raining?</label>
-    <input type="checkbox" id="isRaining" bind:checked={isRaining}>
-    <br>
+    <input type="checkbox" id="isRaining" bind:checked={isRaining}><br><br>
     <label for="distance">Enter the distance you need to travel (in km):</label>
-    <input type="number" id="distance" bind:value={distance} disabled={isRaining}>
-    <br>
+    <input type="number" id="distance" bind:value={distance} disabled={isRaining}><br>
 </form>
 <pre>{message}</pre>

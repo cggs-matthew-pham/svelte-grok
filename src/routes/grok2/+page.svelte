@@ -1,6 +1,6 @@
 <script lang="ts">
     let message = "";
-    let repeatCount = 0;
+    let repeatCount = 1;
     let output = "";
 
     $: {

@@ -8,6 +8,10 @@ let userAnswer: string = '';
 let feedback: string = '';
 let correctAnswer: number;
 let score: number = 0;
+let correctAnswers: Array < {
+    binary: string,
+    decimal: number
+} > = []; // To store history of correct answers
 
 onMount(() => {
     generateNewBinary();
@@ -24,14 +28,17 @@ function checkAnswer(): void {
     if (parsedAnswer === correctAnswer) {
         feedback = 'Correct! Well done!';
         score++;
-        generateNewBinary(); // Generate a new binary number regardless of whether the answer was correct
+        // Save the correct answer before generating a new one
+        correctAnswers = [...correctAnswers, {
+            binary: binaryString,
+            decimal: correctAnswer
+        }];
+        generateNewBinary(); // Generate a new binary number
         userAnswer = ''; // Reset user input field
-
     } else {
         feedback = 'Incorrect, keep trying!';
     }
 }
-
 
 $: if (userAnswer.length > 0 && !isNaN(Number(userAnswer))) {
     checkAnswer();
@@ -44,13 +51,24 @@ $: if (userAnswer.length > 0 && !isNaN(Number(userAnswer))) {
 
 <form on:submit|preventDefault={checkAnswer}>
     <input type="text" bind:value={userAnswer} placeholder="Enter decimal number" />
+    <button type="submit">Submit</button>
 </form>
 
 <p>{feedback}</p>
 <pre>Score: {score}</pre>
 
+{#if correctAnswers.length > 0}
+<h2>Correct Answers:</h2>
+<ul>
+    {#each correctAnswers as answer}
+    <li>{answer.binary} (Binary) = {answer.decimal} (Decimal)</li>
+    {/each}
+</ul>
+{/if}
+
 <style>
-input {
+input,
+button {
     font-size: 16px;
     padding: 5px;
     margin: 5px;
@@ -59,5 +77,14 @@ input {
 strong {
     font-size: 20px;
     color: blue;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 5px;
 }
 </style>
